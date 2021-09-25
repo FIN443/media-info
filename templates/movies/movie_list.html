@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+  Movies
+{% endblock page_title %}
+
+{% block content %}
+<div class="container mx-auto">
+  <div class="pt-6 ">
+    <div class="text-3xl mb-8">Movies</div>
+    <div class="flex item-center flex-wrap">
+    {% for movie in movies %}
+      {% include "mixins/movie.html" with movie=movie %}
+    {% endfor %}
+    </div>
+  </div>
+<hr />
+
+<div>
+  {% if page_obj.has_previous %}
+        <a class="text-pink-600 mb-8"  href="?page={{page_obj.previous_page_number}}">Previous</a>
+    {% endif %}
+
+    Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+
+    {% if page_obj.has_next  %}
+        <a class="text-pink-600 mb-8"  href="?page={{page_obj.next_page_number}}">Next</a>
+    {% endif %}
+</div>
+
+</div>
+
+{% endblock content %}

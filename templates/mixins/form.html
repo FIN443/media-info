@@ -1,0 +1,23 @@
+<div class="flex justify-center mt-8">
+  <form method="POST" enctype="multipart/form-data" class="bg-white shadow-md rounded px-8 py-8 my-4 ">
+      {% csrf_token %}
+      
+      {% if form.non_field_errors %}
+          {% for error in form.non_field_errors %}
+              <span>{{error}}</span> 
+          {% endfor %}
+      {% endif %}
+
+      {% for field in form %}
+        <div class="mb-5 ">
+            <label class="block text-gray-700 font-bold text-sm" for="{{field.auto_id}}">{{field.label}}</label>
+            <div class=" shadow appearance-none border rounded w-full  text-gray-700 leading-loose focus:outline-none focus:shadow-outline">
+              {{field}}
+            </div>
+            
+        </div>
+      {% endfor %}
+      
+      <button class="bg-pink-500 hover:bg-pink-700 text-white font-bold rounded w-full mt-2 py-2 px-4">{{cta}}</button>
+  </form>
+</div>

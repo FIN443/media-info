@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+  Home
+{% endblock page_title %}
+
+{% block content %}
+<div class="container mx-auto">
+  <div class="pt-6 ">
+	<div class="text-3xl mb-8">Movies <a class="text-sm" href="{% url 'movies:create' %}">[create]</a></div>
+  <div class="flex item-center flex-wrap">
+  {% for movie in movies %}
+    {% include "mixins/movie.html" with movie=movie %}
+	{% endfor %}
+  </div>
+
+	<a class="text-pink-600 mb-8" href="{% url 'movies:movies' %}">See all movies &rarr;</a>
+	<hr />
+</div>
+
+<div class="pt-6">
+	<div class="text-3xl mb-8">Books <a class="text-sm" href="{% url 'books:create' %}">[create]</a></div>
+  <div class="flex item-center flex-wrap">
+    {% for book in books %}
+      {% include "mixins/book.html" with book=book %}
+    {% endfor %}
+  </div>
+
+	<a class="text-pink-600 mb-8" href="{% url 'books:books' %}">See all books &rarr;</a>
+	<hr />
+</div>
+
+<div class="pt-6">
+	<div class="text-3xl mb-8">People <a class="text-sm" href="{% url 'people:create' %}">[create]</a></div>
+  <div class="flex item-center flex-wrap">
+    {% for person in people %}
+      {% include "mixins/person.html" with person=person %}
+    {% endfor %}
+  </div>
+
+	<a class="text-pink-600 mb-8" href="{% url 'people:people' %}">See all people &rarr;</a>
+	<hr />
+<div>
+{% endblock content %}

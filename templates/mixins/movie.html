@@ -1,0 +1,16 @@
+<div class="w-1/5">
+  <div class=" mb-6 px-2">
+    <a href="{% url 'movies:movie' movie.pk %}">
+      <div class="flex flex-col w-full items-center">
+        <div class="h-64 bg-cover bg-center rounded-lg mb-2 w-3/4" style="background-image: url({{movie.cover_image.url}});"></div>
+        <div class="flex flex-col w-3/4">
+          <span class="text-lg font-bold truncate block">{{movie.title}}</span>
+          <span class="text-sm mr-1" >{{movie.year}}</span>
+          <span class="text-xs mr-1"> 평점 <i class="fas fa-star text-red-500 text-xs mr-1"></i>{{movie.rating}}</span>
+        </div>
+      </div>
+
+    </a>
+  </div>
+
+</div>

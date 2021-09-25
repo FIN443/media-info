@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+  Search
+{% endblock page_title %}
+
+
+{% block content %}
+<div class="container mx-auto">
+
+  <form class="flex justify-center pt-4	" method="GET" action="{% url 'core:search' %}" > 
+    <input class="border rounede w-3/4 mr-4 shadow focus:outline-none " type="text" placeholder="Search Movie, Book or Person" name="name" value="{{name}}"/>
+    <button class="bg-pink-500 hover:bg-pink-600 focus:outline-none text-white font-bold rounded w-36 mt-2 py-2 px-4">Search</button>
+  </form>
+
+  {% if name == "Anything" %}
+    <div class="mb-20 ">
+      <div class="block text-gray-800 font-bold my-4">Categories</div>
+      <div class="flex w-full inline-block flex-wrap relative my-4 shadow-xl px-2 py-4 ">
+        {% for category in categories %}
+        <div class="bg-pink-300 text-white rounded-xl px-4 py-2 my-1 mx-2 hover:bg-pink-500">
+          <a href="{% url 'core:category' category.pk %}">{{category.name}}</a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <div>
+    <div class="text-xl font-bold my-8">Searching by "{{name}}"</div>
+
+    {% if movies.count > 0 %}
+      <div class="shadow-xl  rounded-xl px-4 py-4 flex flex-wrap">
+        <div class="text-lg font-bold mb-8 w-full">Movies</div>
+        {% for movie in movies %}
+          {% include "mixins/movie.html" with movie=movie %}
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% if books.count > 0 %}
+      <div class="shadow-xl  rounded-xl px-4 py-4 flex flex-wrap">
+        <div class="text-lg font-bold mb-8 w-full">Books</div>
+        {% for book in books %}
+          {% include "mixins/book.html" with book=book %}
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% if people.count > 0 %}
+      <div class="shadow-xl  rounded-xl px-4 py-4 flex flex-wrap">
+        <div class="text-lg font-bold mb-8 w-full">People</div>
+        {% for person in people %}
+          {% include "mixins/person.html" with person=person %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock content %}

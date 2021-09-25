@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load on_book_favs has_review_book i18n %}
+
+{% block page_title %}
+{{book.title}}
+{% endblock page_title %}
+
+{% block content %}
+  <div class="flex justify-center">
+
+    <div class="container-md mx-auto w-1/3 flex flex-col border rounded-xl shadow-xl px-8 py-6 mt-4">
+      <img src="{{book.cover_image.url}}" class="w-3/4 rounded place-self-center" alt="">
+      <span class="text-lg font-bold">{{book.title}}</span>
+      <span class="text-sm mr-1" >{{book.year}} {{book.category}}</span>
+      <span class="text-xs mr-1"> 평점 <i class="fas fa-star text-red-500 text-xs mr-1"></i>{{book.rating}}</span>
+      <span>Writer : {{book.writer}}</span>
+      
+
+
+      <div class="bg-pink-500 hover:bg-pink-700 text-white font-bold rounded w-full mt-4 py-2 px-4 flex justify-center ">
+        <a class="mx-auto " href="{% url 'books:update' book.pk %}">Edit Book</a>
+      </div>
+      {% if user.is_authenticated %}
+        <div class="flex">
+          {% has_review_book book as has_review_boolean %}
+          {% if has_review_boolean %}
+            {% for review in reviews %}
+              {% if review.created_by == user and review.book == book %}
+                  <div class="bg-pink-500 hover:bg-pink-700 text-white font-bold rounded w-full mt-4 py-2 px-4 flex justify-center mr-1">
+                    <a class="mx-auto " href="{% url 'reviews:update' review.pk book.pk %}?type=book">Edit Reivew</a>
+                  </div>
+                  <div class="bg-pink-500 hover:bg-pink-700 text-white font-bold rounded w-full mt-4 py-2 px-4 flex justify-center ml-1">
+                    <a class="mx-auto " href="{% url 'reviews:delete' book.pk %}?type=book">Delete Reivew</a>
+                  </div>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <div class="bg-pink-500 hover:bg-pink-700 text-white font-bold rounded w-full mt-4 py-2 px-4 flex justify-center">
+              <a class="mx-auto " href="{% url 'reviews:create' book.pk %}?type=book">Create Reivew</a>
+            </div>
+          {% endif %}
+        </div>
+        <div class="bg-pink-500 hover:bg-pink-700 text-white font-bold rounded w-full mt-4 py-2 px-4 flex justify-center ">
+          <!-- 여기서 오류 -->
+          {% on_book_favs book as on_favs_boolean %}
+          {% if on_favs_boolean %}
+            <a class="mx-auto " href="{% url 'favs:add' book.pk %}?type=book&action=remove">Remove from Favorites</a>
+          {% else %}
+            <a class="mx-auto " href="{% url 'favs:add' book.pk %}?type=book&action=add">Add to Favorites</a>
+          {% endif %}
+          <!-- 여기서 오류 -->
+        </div>
+      {% endif %}
+
+      <div class="mt-10">
+        <hr />
+        <h1 class="mt-6 font-bold text-xl">Reviews</h1>
+        {% for review in reviews %}
+          {% if review.book == book %}
+            <div class="py-2 my-3">
+              <div class="mb-6">
+                <i class="fas fa-star text-red-400"></i>
+                <span class="mr-4 rounded-full mr-4 font-semibold text-lg">{{review.rating}}</span>
+                <span class="rounded-full mr-4 font-semibold text-lg">{{review.created_by}}</span>
+              </div>
+              <div>
+                <span class="py-2 px-4 rounded-full bg-green-300 mr-4 text-text-sm">{{review.text}}</span>
+              </div>
+            </div>
+            <hr />
+          {% endif %}
+        {% endfor %}
+      </div>
+
+    </div>
+
+  </div>
+
+{% endblock content %}

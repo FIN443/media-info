@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+  Favorites
+{% endblock page_title %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  <div class="container mx-auto">
+    <div class="pt-6 ">
+      <h1 class="text-3xl mb-4 font-bold">My Favorites</h1>
+      {% for fav in favs %}
+        {% if fav.created_by == user %}
+          <div class="py-8">
+            <div class="mb-8">
+              <span class="mb-4 font-semibold text-lg mr-2">Favorite Movies</span>
+            </div>
+            <div class="flex item-center flex-wrap">
+              {% for movie in fav.movies.all %}
+                {% include "mixins/movie.html" with movie=movie %}
+              {% endfor %}
+            </div>
+          </div>
+          <hr />
+          <div class="py-8">
+            <div class="mb-8">
+              <span class="mb-4 font-semibold text-lg mr-2">Favorite Books</span>
+            </div>
+            <div class="flex item-center flex-wrap">
+              {% for book in fav.books.all %}
+                {% include "mixins/book.html" with book=book %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% else %}
+  <div class="container mx-auto py-10">
+    <h1>Please Login.</h1>
+  </div>
+{% endif %}
+
+<hr />
+{% endblock content %}

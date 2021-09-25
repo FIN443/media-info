@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+  All of  {{category}}
+{% endblock page_title %}
+
+
+{% block content %}
+<div class="container mx-auto pt-4">
+  <span class="text-xl font-bold mb-8 mt-6">{{category}}</span>
+
+  {% if category.movies.all.count > 0 %}
+    <div class="shadow-xl  rounded-xl px-4 py-4">
+      <div class="text-lg font-bold mb-8 ">Movies</div>
+      <div class="flex item-center flex-wrap">
+        {% for movie in category.movies.all %}
+          {% include "mixins/movie.html" with movie=movie %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+  {% if category.books.all.count > 0 %}
+    <div  class="shadow-xl  rounded-xl px-4 py-4 mt-4">
+      <div class="text-lg font-bold mb-8 ">Books</div>
+      <div class="flex item-center flex-wrap">
+        {% for book in category.books.all %}
+          {% include "mixins/book.html" with book=book %}
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+{% endblock content %}

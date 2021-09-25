@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+  {{user_obj.first_name}}'s Profile
+{% endblock page_title %}
+
+
+{% block content %}
+    <div class="flex justify-center">
+      <div class="container-md mx-auto w-1/3 flex flex-col border rounded-xl shadow-xl px-8 py-6 mt-4">
+        <span>{{user_obj.first_name}}</span>
+        <span>{{user_obj.bio}}</span>
+        <span>Preference: {{user_obj.preference}}</span>
+        <span>Language : {{user_obj.language}}</span>
+        {% if user_obj.fav_book_cat is not None %}
+          <span>Preference book category : {{user_obj.fav_book_cat}}</span>
+        {% endif %}
+        {% if user_obj.fav_movie_cat is not None %}
+          <span>Preference movie category : {{user_obj.fav_movie_cat}}</span>
+        {% endif %}      
+        <a href="{% url 'favs:list' %}" class="text-pink-600 font-bold mt-8 mb-4">Favorite Lists</a>
+        <a class="text-pink-600 mb-8 font-bold" href="{% url 'users:update' %}">Edit Profile</a>
+      </div>
+
+    </div>
+{% endblock content %} 
+
